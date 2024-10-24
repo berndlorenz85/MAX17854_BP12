@@ -2,8 +2,8 @@
 #include "Scheduler/Scheduler.h"
 #include "MAX32620FTHR.h"
 
- // Initialize I/O voltages on MAX32620FTHR board
- MAX32620FTHR fthr(MAX32620FTHR::VIO_3V3);
+// Initialize I/O voltages on MAX32620FTHR board
+MAX32620FTHR fthr(MAX32620FTHR::VIO_3V3);
 
 Serial pc(USBTX,USBRX,115200); // 3rd parameter is baud rate
 

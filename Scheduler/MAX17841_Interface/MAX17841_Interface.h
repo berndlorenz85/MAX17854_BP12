@@ -1,10 +1,5 @@
-#ifndef __MAX17851_INTERFACE_H
-#define __MAX17851_INTERFACE_H
-
-/*
-MAX17851.WConfig S_17851_Conf[10] =   {MAX17851.W_CONFIG_GPIO34,0x22,
-                                        MAX17851.W_CONFIG_GPIO12,0x22}; 
-*/
+#ifndef __MAX17841_INTERFACE_H
+#define __MAX17841_INTERFACE_H
 
 
 /**
@@ -32,7 +27,7 @@ typedef struct rConfig{
     * @param   NumRegs Number of bytes to be read
     * @returns 0 if no errors, -1 if error
     */
-char MAX17851_readConfig(char MS, RConfig *ConfigRegs, char NumRegs);
+char MAX17841_readConfig(char MS, RConfig *ConfigRegs, char NumRegs);
 
 /**
     * @brief   Initialize register State
@@ -41,7 +36,7 @@ char MAX17851_readConfig(char MS, RConfig *ConfigRegs, char NumRegs);
     * @param   NumRegs Size of ConfigRegs
     * @returns 0 if no errors, -1 if error
     */
-char MAX17851_writeConfig(char MS, WConfig* ConfigRegs, char NumRegs);
+char MAX17841_writeConfig(char MS, WConfig* ConfigRegs, char NumRegs);
 
 #define VERSION         	(char) 0x00
 #define ADDR	         	(char) 0x01
@@ -204,26 +199,12 @@ char MAX17851_writeConfig(char MS, WConfig* ConfigRegs, char NumRegs);
     * @param u5DaisySize Pointer to be filled with the actual chain size
     * @returns 0 if no errors, -1 if error
     */
-char MAX17851_Init(unsigned long *ulWakeuptime, char *u5DaisySize);
-
-/**
-    * @brief   Resets the specific IC
-    * @details Executes SWPOR Command and waits 10us
-    * @returns 0 if no errors, -1 if error
-    */
-char MAX17851_Reset(char MS);
-
-/**
-    * @brief   Sets GPIO of MAX17851 (GPIO1&2 Only)
-    * @details For OV UV detection
-    * @returns 0 if no errors, -1 if error
-    */
-char MAX17851_SetGPIO(char MS, char GPIO12);
+char MAX17841_Init(unsigned long *ulWakeuptime, char *u5DaisySize);
 
 /**
     * @brief   Initiates a write register function to daisy chain devices
     * @details Register value will be written to all devices in the chain
-    * @param MS 'M' for Master interface, 'S' for Slave interface of MAX17851
+    * @param MS 'M' for Master interface, 'S' for Slave interface of MAX17841
     * @param reg register to be written (MAX17852Register_t)
     * @param regval register value (u16)
     * @param blockingTimeout_us u16 timeout in microseconds <b>after Transmission has initiated</b>, meaning UART timeout only. 0 = non-blocking, otherwise waits for result within function and analyzes PEC. When non-blocking, it's recommended to use @ref MAX17852_writeAll_RB function
@@ -234,7 +215,7 @@ char MAX17852_writeAll(char MS, char reg, short regval, unsigned int blockingTim
 /**
     * @brief   Checks if the write has been successful
     * @details Checks the outgoing message against the received one
-    * @param MS 'M' for Master interface, 'S' for Slave interface of MAX17851
+    * @param MS 'M' for Master interface, 'S' for Slave interface of MAX17841
     * @returns 0 if no errors, -1 if error
     */
 char MAX17852_writeAll_RB(char MS);
@@ -242,7 +223,7 @@ char MAX17852_writeAll_RB(char MS);
 /**
     * @brief   Initiates a write register function to ONE daisy chain device
     * @details Only the selected address is affected
-    * @param MS 'M' for Master interface, 'S' for Slave interface of MAX17851
+    * @param MS 'M' for Master interface, 'S' for Slave interface of MAX17841
     * @param u5Device Device address within the daisy chain (same as READBLOCK)
     * @param reg register to be written (MAX17852Register_t)
     * @param regval register value (u16)
@@ -254,7 +235,7 @@ char MAX17852_writeDevice(char MS, char u5Device, char reg, short regval, unsign
 /**
     * @brief   Checks if the write has been successful
     * @details Checks the outgoing message against the received one
-    * @param MS 'M' for Master interface, 'S' for Slave interface of MAX17851
+    * @param MS 'M' for Master interface, 'S' for Slave interface of MAX17841
     * @returns 0 if no errors, -1 if error
     */
 char MAX17852_writeDevice_RB(char MS);
@@ -262,7 +243,7 @@ char MAX17852_writeDevice_RB(char MS);
 /**
     * @brief   Initiates a single register of all devices in the daisy chain
     * @details This function loads the TX Queue and sends it via the Daisy Chain
-    * @param MS 'M' for Master interface, 'S' for Slave interface of MAX17851
+    * @param MS 'M' for Master interface, 'S' for Slave interface of MAX17841
     * @param reg register to be written (MAX17852Register_t)
     * @returns 0 if no errors, -1 if error
     */
@@ -271,7 +252,7 @@ char MAX17852_readAll(char MS, char reg);
 /**
     * @brief   Initiates a single register of all devices in the daisy chain
     * @details Lowest device is on lowest index
-    * @param MS 'M' for Master interface, 'S' for Slave interface of MAX17851
+    * @param MS 'M' for Master interface, 'S' for Slave interface of MAX17841
     * @param values Address of result cluster
     * @returns 0 if no errors, -1 if error
     */
@@ -280,7 +261,7 @@ char MAX17852_readAll_RB(char MS, short* values);
 /**
     * @brief   Initiates a block transfer of registers from a single device
     * @details This function loads the TX Queue and sends it via the Daisy Chain
-    * @param MS 'M' for Master interface, 'S' for Slave interface of MAX17851
+    * @param MS 'M' for Master interface, 'S' for Slave interface of MAX17841
     * @param u5Device 5 bit device address in the daisy chain
     * @param u8StartAddr Start Address of the block transfer
     * @param u5BlockSize 5 bit block size (max. 31 registers)
@@ -292,16 +273,10 @@ char MAX17852_readBlock(char MS, char u5Device, char u8StartAddr, char u5BlockSi
 /**
     * @brief   Transfers a previously finished block transfer into MCU memory
     * @details Lowest address is on lowest index
-    * @param MS 'M' for Master interface, 'S' for Slave interface of MAX17851
+    * @param MS 'M' for Master interface, 'S' for Slave interface of MAX17841
     * @param values Address of result cluster
     * @returns 0 if no errors, -1 if error
     */
 char MAX17852_readBlock_RB(char MS, short* values);
-
-/**
-* @brief   Cyclic MAX17851 task
-* @details Checks functionality/safety and pets watchdog
-*/
-void MAX17851_Loop(void);
 
 #endif
